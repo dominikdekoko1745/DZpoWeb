@@ -1,0 +1,19 @@
+body {
+    background-color: bisque;
+    display: flex;
+    justify-content: center;
+}
+body h1 {
+    color: rgb(103, 65, 26);
+    font-size: 50px;
+    -webkit-text-stroke: 1px;
+}
+body img {
+    width: 500px;
+    
+    transition: 2s;
+}
+body img:hover {
+    transform: scale(3.0);
+
+}
