@@ -1,78 +1,52 @@
+import React, { useState } from 'react';
+import ItemForm from './components/AddForm';
+import Item from './components/Item';
+import './App.css';
+
 function App() {
-    return (
-        <div className="container">
+  // State для хранения списка покупок
+  const [items, setItems] = useState([
+    { id: 1, name: 'Молоко', price: 85 },
+    { id: 2, name: 'Хлеб', price: 35 },
+  ]);
 
-            <header>
-                <h1>Моё резюме</h1>
+  // Функция добавления товара
+  const handleAddItem = (newItem) => {
+    setItems((prevItems) => [...prevItems, newItem]);
+  };
 
-                <nav>
-                    <a href="#about">Обо мне</a>
-                    <a href="#skills">Навыки</a>
-                    <a href="#education">Образование</a>
-                    <a href="#contacts">Контакты</a>
-                </nav>
-            </header>
+  // Функция удаления товара по id
+  const handleDeleteItem = (id) => {
+    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  };
 
-            <section id="about">
-                <img
-                    src="/profile.svg"
-                    alt="Моя фотография"
-                    className="profile"
-                />
+  // Вычисление общей стоимости покупок
+  const totalPrice = items.reduce((sum, item) => sum + item.price, 0);
 
-                <h2>Искак</h2>
-                <h3>Начинающий веб-разработчик</h3>
+  return (
+    <div className="app-container">
+      <h1>Список покупок</h1>
 
-                <p>
-                    Я студент и изучаю программирование.
-                    Интересуюсь веб-разработкой, Java и созданием сайтов.
-                    Хочу развивать свои навыки и работать над интересными проектами.
-                </p>
-            </section>
+      {/* Форма для добавления */}
+      <ItemForm onAdd={handleAddItem} />
 
-            <section id="skills">
-                <h2>Мои навыки</h2>
+      {/* Список товаров */}
+      {items.length === 0 ? (
+        <p className="empty-text">Список пуст</p>
+      ) : (
+        <ul className="items-list">
+          {items.map((item) => (
+            <Item key={item.id} item={item} onDelete={handleDeleteItem} />
+          ))}
+        </ul>
+      )}
 
-                <ul>
-                    <li>HTML</li>
-                    <li>CSS</li>
-                    <li>JavaScript</li>
-                    <li>Java — базовый уровень</li>
-                    <li>Git и GitHub</li>
-                    <li>React — изучаю</li>
-                </ul>
-            </section>
-
-            <section id="education">
-                <h2>Образование</h2>
-
-                <p>
-                    Студент. Изучаю программирование,
-                    веб-технологии, базы данных и компьютерные сети.
-                </p>
-            </section>
-
-            <section id="contacts">
-                <h2>Контакты</h2>
-
-                <p>
-                    GitHub:
-                    <a
-                        href="https://github.com/dominikdekoko1745"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        Мой профиль GitHub
-                    </a>
-                </p>
-            </section>
-
-            <footer>
-                <p>Моё резюме, 2026</p>
-            </footer>
-
-        </div>
-    );
+      {/* Общая стоимость */}
+      <div className="total-container">
+        <h3>Общая стоимость: <span>{totalPrice} сом</span></h3>
+      </div>
+    </div>
+  );
 }
 
 export default App;
